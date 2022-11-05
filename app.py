@@ -16,10 +16,6 @@ response = requests.get(url=SEARCH_PATH,
                         params=PARAMETERS, 
                         headers=HEADERS)
 '''
-#business_data = response.json()  
-
-# print the data
-#print(json.dumps(business_data, indent = 3))
 
 
 server = 'rushikeshbhagat.database.windows.net'

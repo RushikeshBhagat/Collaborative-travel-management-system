@@ -12,12 +12,11 @@
       }
 
       .left {
-        width: 10vw;
         display: flex;
+        padding-right: 10px;
       }
 
       .right {
-        width: 50vw;
         display: flex;
       }
     </style>
@@ -31,7 +30,7 @@
   </head>
   <body>
     <nav>
-      <h2>Travel Planner</h2>
+      <h2>Travel Management System</h2>
       <ul>
         <li><a class="navbar-brand" href="{{url_for('index')}}">Home</a></li>
         <li>
@@ -49,6 +48,8 @@
       </div>
     </form>
 
+    <h3 id="plan">Current Plan</h3>
+
     <div id="cont">
       <br />
       <div class="left">
@@ -63,12 +64,13 @@
 
           {% for row in filter %}
           <tr class="table__row">
-            {% for cell in row %} {% if loop.index0 !=2 %}
-            <td class="table__cell">{{ cell }}</td>
-            {% elif loop.index0 ==1 %}
+            {% for cell in row %} {% if loop.index0 ==1 %}
             <td class="table__cell">
               <a href="{{cell}}"> Visit here </a>
             </td>
+            {% elif loop.index0 !=2 %}
+            <td class="table__cell">{{ cell }}</td>
+
             {% else %}
             <td class="table__cell">
               <img src="{{cell}}" width="auto" height="200" />
@@ -79,7 +81,17 @@
         </table>
       </div>
 
-      <div class="right"></div>
+      <div class="right">
+        <table class="table">
+          <tr class="table__header">
+            {% for header in cols %}
+
+            <th class="cell">{{ header }}</th>
+
+            {% endfor %}
+          </tr>
+        </table>
+      </div>
     </div>
 
     <script
