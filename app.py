@@ -220,8 +220,15 @@ def update_fields(name,state,sal,grade,room,telnum,keyw):
 
 
 @app.route("/", methods=['GET','POST'])
-@app.route("/createPlan", methods=['GET','POST'])
+
 def index():
+
+        #return render_template('index.html')
+
+    return render_template('index.html')
+
+@app.route("/createPlan", methods=['GET','POST'])
+def createPlan():
     if request.method == 'POST':
 
         if 'city' in request.form :
@@ -236,33 +243,11 @@ def index():
                                 headers=HEADERS)
         
         business_data = response.json()
-        
-        cols = ["Name","Website","Image", "Ratings", "Price", "Address", "Phone No."]
-        filter=[]
-        for business in business_data['businesses']:
-            temp=[]
-            temp.append((business['name']))
-            temp.append((business['url']))
-            temp.append((business['image_url']))
-            temp.append((business['rating']))
-            if "price" in business:
-                temp.append((business['price']))
-            else:
-                business['price']=""
-                temp.append(business['price'])
-            temp.append((business['location']['display_address']))
-            temp.append((business['phone']))
-            filter.append(temp)
             
         #print(filters)
-        return render_template('createPlan.html',cols=cols,filter=filter)
-        #return render_template('index.html')
+        return render_template('createPlan.html', biz_json = business_data['businesses'])
 
-    return render_template('index.html')
-
-
-
-
+    return render_template('createPlan.html')
     
 @app.route("/update", methods=['GET','POST'])
 def update():
