@@ -1,0 +1,19 @@
+CREATE TABLE Plans (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE Places (
+    plan_id int NOT NULL AUTO_INCREMENT,
+    bizid   varchar(255),
+    bizname varchar(255),
+    bizurl  varchar(255),
+    price  varchar(255),
+    ratings  float,
+    address  varchar(255),
+    phone  varchar(255),
+    imgurl  varchar(255),
+    CONSTRAINT pk_place PRIMARY KEY (plan_id, bizid),
+    FOREIGN KEY (plan_id) REFERENCES Plans(id)
+);
