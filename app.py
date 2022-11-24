@@ -55,10 +55,11 @@ def createPlan():
         crsr.reset()
         crsr.execute("select name from Plans;")
         result = crsr.fetchall()
+        conn.commit()
         list_of_plan_names=[]
         for row in result:
             list_of_plan_names.append(row['name'])
-        #print(list_of_plan_names)
+        print(list_of_plan_names)
         if plan_name in list_of_plan_names:
             return render_template('index.html', err= "Plan Already exists")
         query = f"insert into Plans (name) values ('{plan_name}');"
