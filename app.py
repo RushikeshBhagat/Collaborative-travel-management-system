@@ -12,23 +12,22 @@ SEARCH_PATH = "https://api.yelp.com/v3/businesses/search"
 HEADERS = {'Authorization': 'bearer %s' % API_KEY}
 
 conn = mysql.connector.connect(user="root", password="e~oJ^vNcTm5^.2BD", host="34.28.144.64", database="cloud-computing-db")
+
 crsr = conn.cursor(dictionary=True)
 crsr.execute("select * from Persons;")
-print(crsr.fetchall())
-
-server = 'rushikeshbhagat.database.windows.net'
-database = 'profile'
-username = 'rushi'
-password = 'April@5420'   
-driver= '{ODBC Driver 17 for SQL Server}'
-
-connstr = 'DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password
-
+#print(crsr.fetchall())
 
 
 app = Flask(__name__)
 
-
+'''def cPlan(plan):
+    crsr = conn.cursor()
+    crsr.execute('INSERT INTO plan (planID, planName) VALUES(%s, %s)',(plan["id"], plan["name"]))
+    #cursor.execute('INSERT INTO places (planID, planName) VALUES(%s, %s)',(businesses["id"], plan["name"]))
+    #biz_id=crsr.execute('select places.planID from places,plan where plan.planID=')
+    crsr.execute('INSERT INTO places (planID, planName) VALUES(%s, %s)',(businesses["id"], businesses["name"],
+    businesses["image_url"],businesses["location"]["display_address"]))
+    conn.commit()'''
 
 
 
@@ -49,6 +48,7 @@ def createPlan():
         if 'city' in request.form :
             city = request.form["city"]
             term = request.form["name"]
+
         PARAMETERS = {'location':city,
                         'term':term,
                         'limit':10}
@@ -58,85 +58,10 @@ def createPlan():
                                 headers=HEADERS)
         
         business_data = response.json()
-            
-        #print(filters)
+        businesses=business_data['businesses']
         return render_template('createPlan.html', biz_json = business_data['businesses'])
-
+        #print(business_data)
     return render_template('createPlan.html')
-    
-@app.route("/update", methods=['GET','POST'])
-def update():
-    if request.method == 'POST':
-        if 'name' in request.form :
-            name = request.form["name"]
-            state = request.form["state"]
-            sal = request.form["salary"]
-            grade = request.form["grade"]
-            room = request.form["room"]
-            telnum = request.form["telnum"]
-            keyw = request.form["keywords"]
-            update_fields(name,state,sal,grade,room,telnum,keyw)
-
-    return render_template("update.html")
-
-app.config['IMAGE_TYPE'] = ['PNG', 'JPG', 'JPEG', 'GIF']
-app.config['CSV_TYPE'] = ['CSV']
-
-def csv_type(filename):
-    if not '.' in filename:
-        return False
-    ext = filename.rsplit('.',1)[1]
-
-    if ext.upper() in app.config['CSV_TYPE']:
-        return True
-    else:
-        return False
-
-def image_type(filename):
-    if not '.' in filename:
-        return False
-    ext = filename.rsplit('.',1)[1]
-
-    if ext.upper() in app.config['IMAGE_TYPE']:
-        return True
-    else:
-        return False
-
-@app.route("/upload", methods=['GET','POST'] )
-def upload():
-    if request.method == 'POST':
-        if 'csvfile' in request.files:
-
-            csvfile = request.files["csvfile"]
-
-            if not csv_type(csvfile.filename):
-                print('file extension not allowed')
-                return render_template("upload.html")
-            upload_csv(csvfile.filename)
-
-
-            print("csv uploaded")
-
-        if 'imagefile' in request.files and 'username' in request.form:
-            imagefile = request.files["imagefile"]
-            
-            if not image_type(imagefile.filename):
-                print('file extension not allowed')
-                return render_template("upload.html")
-
-            upload_image(imagefile,request.form["username"])
-
-            print("image uploaded")
-
-        if 'name' in request.form:
-            delete_profile(request.form["name"])
-
-        if 'picture' in request.form:
-            delete_picture(request.form["picture"])
-
-
-    return render_template("upload.html")
-
 
 
 if __name__ == '__main__':

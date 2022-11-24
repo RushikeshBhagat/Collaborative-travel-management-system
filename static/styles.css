@@ -19,14 +19,14 @@ nav a {
   color: #0d47a1;
 }
 
-.biz{
+.biz {
   display: flex;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #C8AD7F;
+  background-color: #c8ad7f;
   line-height: 1.5;
 }
-.fav_biz{
+.fav_biz {
   display: flex;
   margin-bottom: 10px;
   padding: 10px;
@@ -49,8 +49,10 @@ img {
   border-radius: 10px;
 }
 .search {
+  position: relative;
   float: left;
   width: 50%;
+  top: -25px;
 }
 
 .favorites {
@@ -58,3 +60,14 @@ img {
   width: 50%;
 }
 
+.add {
+  position: relative;
+  left: 540px;
+  top: -25px;
+}
+
+.srch {
+  position: relative;
+  left: 275px;
+  top: -5px;
+}

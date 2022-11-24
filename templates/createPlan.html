@@ -33,35 +33,38 @@
       </div>
     </form>
 
-    <div id="output">
+    <div class="output">
       <div id="search" class = "search">
+        <button class="srch" type="submit">Search</button>
       <h2>Search Result</h3>
+         
         <ol>
           {% for businessName in biz_json %}
+         
           <div class ="biz" > <li> 
             <a href="{{businessName['url'] }}" target="_blank"> {{businessName['name']}}  </a> 
             <br><br>
             <ul>
-            <b> Catergories: </b> {{bizCategories}} <br>
-            <b> Price: </b> <?php echo array_key_exists('price', $businessName) ?$businessName['price'] : ''; }} <br>
+            <b> Price: </b> {{businessName['price']}} <br>
             <b> Ratings: </b> {{businessName['rating']}} <br>
             <b> Postal Address: </b> 
             {{businessName['location']['display_address'][0] ,businessName['location']['display_address'][1]}} <br>
             <b> Phone: </b> {{businessName['display_phone']}} <br>
-
+            
             </ul>
-            
             <img src= "{{businessName['image_url'] }}" height="100px" width="100px"></img>
-            
+            <input type="button" id="{{ businessName }}" name="business" onclick="addToFav()">
+              
           </li> 
         </div> <br>
+        
         {% endfor %}
         </ol>
       </div>
       <div id="favorites" class = "favorites">
         <h2>Current Plan</h3>
           <ol>
-            {% for businessName in biz_json %}
+            {% for businessName in fav %}
             <div class ="fav_biz" > <li> 
               <a href="{{businessName['url'] }}" target="_blank"> {{businessName['name']}}  </a> 
               <br><br>
@@ -83,7 +86,7 @@
           </ol>
         </div>
     </div>
--->
+
 
 
     <script
@@ -91,5 +94,6 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+  
   </body>
 </html>
