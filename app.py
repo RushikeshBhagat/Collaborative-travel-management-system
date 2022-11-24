@@ -48,6 +48,22 @@ def createPlan():
         if 'city' in request.form :
             city = request.form["city"]
             term = request.form["name"]
+            plan_name = request.form["plan_name"]
+
+        
+        #crsr = conn.cursor(dictionary=True)
+        crsr.reset()
+        crsr.execute("select name from Plans;")
+        result = crsr.fetchall()
+        list_of_plan_names=[]
+        for row in result:
+            list_of_plan_names.append(row['name'])
+        #print(list_of_plan_names)
+        if plan_name in list_of_plan_names:
+            return render_template('index.html', err= "Plan Already exists")
+        query = f"insert into Plans (name) values ('{plan_name}');"
+        crsr.execute(query)
+        conn.commit()
 
         PARAMETERS = {'location':city,
                         'term':term,
@@ -59,7 +75,7 @@ def createPlan():
         
         business_data = response.json()
         businesses=business_data['businesses']
-        return render_template('createPlan.html', biz_json = business_data['businesses'])
+        return render_template('createPlan.html', biz_json = business_data['businesses'],curr_plan =plan_name )
         #print(business_data)
     return render_template('createPlan.html')
 
