@@ -50,15 +50,14 @@
             <b> Postal Address: </b> 
             {{businessName['location']['display_address'][0] ,businessName['location']['display_address'][1]}} <br>
             <b> Phone: </b> {{businessName['display_phone']}} <br>
-            
             </ul>
             <img src= "{{businessName['image_url'] }}" height="100px" width="100px"></img>
-            <input type="button" id="{{ businessName }}" name="business" onclick="addToFav()">
-              
+            
+          
           </li> 
         </div> <br>
-        
         {% endfor %}
+
         </ol>
       </div>
       <div id="favorites" class = "favorites">
