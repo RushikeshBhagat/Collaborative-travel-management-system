@@ -19,3 +19,4 @@ CREATE TABLE Places (
 );
 
 DELETE from Plans where name = 'plan9' ;
+INSERT into Places (plan_id, bizid, bizname, bizurl, price, ratings, address, phone, imgurl) values (24, 'ub4SJIWsZRtsowxzqYYR6t','Creative Hands','https://www.yelp.com/biz/creative-hands-arlington-2','',4.0,'2225 W Park Row Dr','(817) 695-2677','https://s3-media2.fl.yelpcdn.com/bphoto/sQF94-D7zlutaJ2hI2_P3w/o.jpg');

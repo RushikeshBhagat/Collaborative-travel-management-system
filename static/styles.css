@@ -63,7 +63,13 @@ img {
 .add {
   position: relative;
   left: 540px;
-  top: -25px;
+  top: -40px;
+}
+
+.rmButton {
+  position: relative;
+  left: 600px;
+  top: -140px;
 }
 
 .srch {

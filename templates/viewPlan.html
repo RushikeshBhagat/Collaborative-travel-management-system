@@ -36,7 +36,7 @@
       </p>
       <button class="viewPlan" name="view" type="submit">View</button>
     </form>
-    
+    <h3>Showing Plan: {{curr_plan_name}}</h3>
     <ol>
       {% for b in result2 %}
         <div class ="biz" > 
@@ -51,11 +51,17 @@
             <b> Phone: </b> {{b.phone}} <br>
             </ul>
             <img src= "{{b.imgurl }}" height="100px" width="100px"></img> 
+            
+            <form action="/viewPlan" method="post">
+              <input type="hidden" name="element_id" value ="{{ b }}" />
+              <button  class="rmButton" name="view" value="rmButton" type="submit">Remove</button>
+            </form>
           </li> 
         </div> <br>  
       {% endfor %}
     </ol>
-     
+    
+    
   
 
     
