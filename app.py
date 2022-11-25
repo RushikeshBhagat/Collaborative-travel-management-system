@@ -1,8 +1,6 @@
 from flask import Flask, flash, render_template, request, redirect
-
 import requests
 import json
-import pyodbc
 import csv
 import mysql.connector
 
@@ -12,32 +10,13 @@ SEARCH_PATH = "https://api.yelp.com/v3/businesses/search"
 HEADERS = {'Authorization': 'bearer %s' % API_KEY}
 
 conn = mysql.connector.connect(user="root", password="e~oJ^vNcTm5^.2BD", host="34.28.144.64", database="cloud-computing-db")
-
 crsr = conn.cursor(dictionary=True)
-crsr.execute("select * from Persons;")
-#print(crsr.fetchall())
-
 
 app = Flask(__name__)
-
-'''def cPlan(plan):
-    crsr = conn.cursor()
-    crsr.execute('INSERT INTO plan (planID, planName) VALUES(%s, %s)',(plan["id"], plan["name"]))
-    #cursor.execute('INSERT INTO places (planID, planName) VALUES(%s, %s)',(businesses["id"], plan["name"]))
-    #biz_id=crsr.execute('select places.planID from places,plan where plan.planID=')
-    crsr.execute('INSERT INTO places (planID, planName) VALUES(%s, %s)',(businesses["id"], businesses["name"],
-    businesses["image_url"],businesses["location"]["display_address"]))
-    conn.commit()'''
-
-
-
-
 
 @app.route("/", methods=['GET','POST'])
 
 def index():
-
-        #return render_template('index.html')
 
     return render_template('index.html')
 
@@ -48,37 +27,39 @@ def createPlan():
         if 'city' in request.form :
             city = request.form["city"]
             term = request.form["name"]
+        
+
+
+            PARAMETERS = {'location':city,
+                            'term':term,
+                            'limit':10}
+
+            response = requests.get(url=SEARCH_PATH, 
+                                    params=PARAMETERS, 
+                                    headers=HEADERS)
+            
+            business_data = response.json()
+            businesses=business_data['businesses']
+            return render_template('createPlan.html', biz_json = business_data['businesses'] )
+        
+        elif  'plan_name' in request.form:
             plan_name = request.form["plan_name"]
-
+            crsr.reset()
+            crsr.execute("select name from Plans;")
+            result = crsr.fetchall()
+            conn.commit()
+            list_of_plan_names=[]
+            for row in result:
+                list_of_plan_names.append(row['name'])
+            print(list_of_plan_names)
+            if plan_name in list_of_plan_names:
+                return render_template('index.html', err= "Plan Already exists")
+            query = f"insert into Plans (name) values ('{plan_name}');"
+            crsr.execute(query)
+            conn.commit()
+            return render_template('index.html', err= f"{plan_name} is created")
         
-        #crsr = conn.cursor(dictionary=True)
-        crsr.reset()
-        crsr.execute("select name from Plans;")
-        result = crsr.fetchall()
-        conn.commit()
-        list_of_plan_names=[]
-        for row in result:
-            list_of_plan_names.append(row['name'])
-        print(list_of_plan_names)
-        if plan_name in list_of_plan_names:
-            return render_template('index.html', err= "Plan Already exists")
-        query = f"insert into Plans (name) values ('{plan_name}');"
-        crsr.execute(query)
-        conn.commit()
-
-        PARAMETERS = {'location':city,
-                        'term':term,
-                        'limit':10}
-
-        response = requests.get(url=SEARCH_PATH, 
-                                params=PARAMETERS, 
-                                headers=HEADERS)
-        
-        business_data = response.json()
-        businesses=business_data['businesses']
-        return render_template('createPlan.html', biz_json = business_data['businesses'],curr_plan =plan_name )
-        #print(business_data)
-    return render_template('createPlan.html')
+        return render_template('index.html')
 
 
 if __name__ == '__main__':
