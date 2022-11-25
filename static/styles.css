@@ -83,3 +83,9 @@ img {
   left: 200px;
   top: -45px;
 }
+
+.deleteButton {
+  position: relative;
+  left: 240px;
+  top: -45px;
+}

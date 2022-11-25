@@ -70,14 +70,17 @@ def viewPlan():
     crsr.reset()
     crsr.execute("select * from Plans;")
     result1=crsr.fetchall()
-    
+    #crsr.execute("INSERT into Places (plan_id, bizid, bizname, bizurl, price, ratings, address, phone, imgurl) values (32, 'ub4SJIWsZRtsowxzqYYR6t','Creative Hands','https://www.yelp.com/biz/creative-hands-arlington-2','',4.0,'2225 W Park Row Dr','(817) 695-2677','https://s3-media2.fl.yelpcdn.com/bphoto/sQF94-D7zlutaJ2hI2_P3w/o.jpg');")
     conn.commit()
-    #print(result2)
+    print(result1)
     selectValue = request.form.get('jobid')
     print(selectValue)
     if request.method == 'POST':
         if 'view' in request.form : 
-            
+            crsr.execute("select * from Places where plan_id='"+selectValue+"';")
+            result2=crsr.fetchall()
+            conn.commit()
+
             if request.form['view']== 'rmButton':
                 
                 curr_element = yaml.safe_load(request.form['element_id'])
@@ -86,10 +89,16 @@ def viewPlan():
                 crsr.execute(query)
                 conn.commit()
                 selectValue = str(curr_element['plan_id'])
-
-            crsr.execute("select * from Places where plan_id='"+selectValue+"';")
-            result2=crsr.fetchall()
-            conn.commit()
+            
+            if request.form['view']=='dlButton':
+                
+                crsr.execute("delete from Places where plan_id='"+selectValue+"';")
+                crsr.execute("delete from Plans where id='"+selectValue+"';")
+                crsr.execute("select * from Plans;")
+                result1=crsr.fetchall()
+                conn.commit()
+                return render_template('viewPlan.html',result1=result1)
+           
             #print(result1)
             for plan in result1:
                 if plan['id'] == int(selectValue):

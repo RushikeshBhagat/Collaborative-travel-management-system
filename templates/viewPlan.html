@@ -35,8 +35,11 @@
           {% endfor %}
         </select>
       </p>
-      <button class="viewPlan" name="view" type="submit">View</button>
+      <button class="viewPlan" name="view" type="submit">View Plan</button>
+      <button  class="deleteButton" name="view" value="dlButton" type="submit">Delete Plan</button>
     </form>
+
+   
     <h3>Showing Plan: {{curr_plan_name}}</h3>
     <ol>
       {% for b in result2 %}
