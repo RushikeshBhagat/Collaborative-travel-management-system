@@ -1,7 +1,7 @@
 from flask import Flask, flash, render_template, request, redirect
 import requests
 import json
-import csv
+import yaml
 import mysql.connector
 
 
@@ -26,6 +26,8 @@ def createPlan():
 
         if 'city' in request.form :
             city = request.form["city"]
+            if city == '':
+                return render_template('index.html', err1= f"Please enter city name")
             term = request.form["name"]
         
 
@@ -44,6 +46,8 @@ def createPlan():
         
         elif  'plan_name' in request.form:
             plan_name = request.form["plan_name"]
+            if plan_name == '':
+                return render_template('index.html', err= f"Please enter plan name")
             crsr.reset()
             crsr.execute("select name from Plans;")
             result = crsr.fetchall()
@@ -67,8 +71,6 @@ def viewPlan():
     crsr.execute("select * from Plans;")
     result1=crsr.fetchall()
     
-    
-    #crsr.execute("INSERT into Places (plan_id, bizid, bizname, bizurl, price, ratings, address, phone, imgurl) values (24, 'ub4SJIWsZRtsowxzqYYR6t','Creative Hands','https://www.yelp.com/biz/creative-hands-arlington-2','',4.0,'2225 W Park Row Dr','(817) 695-2677','https://s3-media2.fl.yelpcdn.com/bphoto/sQF94-D7zlutaJ2hI2_P3w/o.jpg');")
     conn.commit()
     #print(result2)
     selectValue = request.form.get('jobid')
@@ -76,10 +78,23 @@ def viewPlan():
     if request.method == 'POST':
         if 'view' in request.form : 
             
+            if request.form['view']== 'rmButton':
+                
+                curr_element = yaml.safe_load(request.form['element_id'])
+                query = f"delete from Places where plan_id={curr_element['plan_id']} and bizid='{curr_element['bizid']}';"
+                #print(query,"element_id")
+                crsr.execute(query)
+                conn.commit()
+                selectValue = str(curr_element['plan_id'])
+
             crsr.execute("select * from Places where plan_id='"+selectValue+"';")
             result2=crsr.fetchall()
             conn.commit()
-            return render_template('viewPlan.html', result1=result1, result2=result2)
+            #print(result1)
+            for plan in result1:
+                if plan['id'] == int(selectValue):
+                    curr_plan_name =  plan['name']
+            return render_template('viewPlan.html', result1=result1, result2=result2, curr_plan_name = curr_plan_name)
     
     return render_template('viewPlan.html',result1=result1)
 
