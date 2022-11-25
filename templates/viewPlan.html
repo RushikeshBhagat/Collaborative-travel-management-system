@@ -19,46 +19,46 @@
       <ul>
         <li><a class="navbar-brand" href="{{url_for('index')}}">Home</a></li>
         <li>
-          <a class="navbar-brand" href="{{url_for('index')}}">View Plans</a>
+          <a class="navbar-brand" href="{{url_for('viewPlan')}}">View Plans</a>
         </li>
       </ul>
     </nav>
 
-    <div class="p-3">
-      <h4>Upload csv File</h4>
+    <h2>View Plans</h2>
 
-      <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="csvfile" id="" />
-        <button type="submit">Upload CSV</button>
-      </form>
-      <br />
-      <br />
+    <form action="/viewPlan" method="post">
+      <p style="font-family: verdana">
+        Choose Plan:<select name="jobid" style="font-family: verdana">
+          {% for j in result1 %}
+          <option value="{{j.id}}">{{j.name}}</option>
+          {% endfor %}
+        </select>
+      </p>
+      <button class="viewPlan" name="view" type="submit">View</button>
+    </form>
+    
+    <ol>
+      {% for b in result2 %}
+        <div class ="biz" > 
+          <li> 
+            <a href="{{b.bizurl}}" target="_blank"> {{b.bizname}}  </a> 
+            <br><br>
+            <ul>
+            <b> Price: </b> {{b.price}} <br>
+            <b> Ratings: </b> {{b.ratings}} <br>
+            <b> Postal Address: </b> 
+            {{b.address}} <br>
+            <b> Phone: </b> {{b.phone}} <br>
+            </ul>
+            <img src= "{{b.imgurl }}" height="100px" width="100px"></img> 
+          </li> 
+        </div> <br>  
+      {% endfor %}
+    </ol>
+     
+  
 
-      <form action="/upload" method="post" enctype="multipart/form-data">
-        <h4>Enter name and Add / Update picture below</h4>
-        <input type="text" name="username" />
-        <input type="file" name="imagefile" id="" />
-        <button type="submit">Upload Image</button>
-      </form>
-      <br /><br />
-      <h4>Delete Profile below</h4>
-      <form action="/upload" method="post">
-        Enter name of profile you want to delete
-        <br /><br />
-        <input type="text" name="name" />
-        <button type="submit">Delete Profile</button>
-      </form>
-
-      <br /><br />
-      <h4>Delete Picture below</h4>
-      <form action="/upload" method="post">
-        Enter name of user whos picture you want to delete
-        <br /><br />
-        <input type="text" name="picture" />
-        <button type="submit">Delete Picture</button>
-      </form>
-    </div>
-
+    
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

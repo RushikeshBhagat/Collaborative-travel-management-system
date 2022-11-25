@@ -14,8 +14,8 @@ HEADERS = {'Authorization': 'bearer %s' % API_KEY}
 conn = mysql.connector.connect(user="root", password="e~oJ^vNcTm5^.2BD", host="34.28.144.64", database="cloud-computing-db")
 
 crsr = conn.cursor(dictionary=True)
-crsr.execute("select * from Persons;")
-#print(crsr.fetchall())
+'''crsr.execute("select * from Plans;")
+print(crsr.fetchall())'''
 
 
 app = Flask(__name__)
@@ -50,7 +50,6 @@ def createPlan():
             term = request.form["name"]
             plan_name = request.form["plan_name"]
 
-        
         #crsr = conn.cursor(dictionary=True)
         crsr.reset()
         crsr.execute("select name from Plans;")
@@ -80,6 +79,27 @@ def createPlan():
         #print(business_data)
     return render_template('createPlan.html')
 
+@app.route("/viewPlan", methods=['GET','POST'])
+def viewPlan():
+    crsr.reset()
+    crsr.execute("select * from Plans;")
+    result1=crsr.fetchall()
+    
+    
+    #crsr.execute("INSERT into Places (plan_id, bizid, bizname, bizurl, price, ratings, address, phone, imgurl) values (24, 'ub4SJIWsZRtsowxzqYYR6t','Creative Hands','https://www.yelp.com/biz/creative-hands-arlington-2','',4.0,'2225 W Park Row Dr','(817) 695-2677','https://s3-media2.fl.yelpcdn.com/bphoto/sQF94-D7zlutaJ2hI2_P3w/o.jpg');")
+    conn.commit()
+    #print(result2)
+    selectValue = request.form.get('jobid')
+    print(selectValue)
+    if request.method == 'POST':
+        if 'view' in request.form : 
+            
+            crsr.execute("select * from Places where plan_id='"+selectValue+"';")
+            result2=crsr.fetchall()
+            conn.commit()
+            return render_template('viewPlan.html', result1=result1, result2=result2)
+    
+    return render_template('viewPlan.html',result1=result1)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -19,7 +19,7 @@
       <ul>
         <li><a class="navbar-brand" href="{{url_for('index')}}">Home</a></li>
         <li>
-          <a class="navbar-brand" href="{{url_for('index')}}">View Plans</a>
+          <a class="navbar-brand" href="{{url_for('viewPlan')}}">View Plans</a>
         </li>
       </ul>
     </nav>
@@ -41,7 +41,8 @@
         <ol>
           {% for businessName in biz_json %}
          
-          <div class ="biz" > <li> 
+          <div class ="biz" > 
+            <li> 
             <a href="{{businessName['url'] }}" target="_blank"> {{businessName['name']}}  </a> 
             <br><br>
             <ul>
@@ -55,10 +56,10 @@
             <img src= "{{businessName['image_url'] }}" height="100px" width="100px"></img>
             <input type="button" id="{{ businessName }}" name="business" onclick="addToFav()">
               
-          </li> 
-        </div> <br>
+            </li> 
+          </div> <br>
         
-        {% endfor %}
+          {% endfor %}
         </ol>
       </div>
       <div id="favorites" class = "favorites">

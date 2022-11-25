@@ -71,3 +71,9 @@ img {
   left: 275px;
   top: -5px;
 }
+
+.viewPlan {
+  position: relative;
+  left: 200px;
+  top: -45px;
+}
