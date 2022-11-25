@@ -4,6 +4,7 @@ import requests
 import json
 import mysql.connector
 import csv
+import yaml
 
 
 API_KEY = '2mV1iX6Fd8Fx87j_3PDsUz5p9JjNDRfvZRqoijC4wbzF_QeXe9xReZ8TMmSjp22CQtF_WCRyzt08KHKla30wMFVOSnPqTkakoVO0_tf2oH_BCyW_FQgNgKjyoTA3Y3Yx'
@@ -11,11 +12,16 @@ SEARCH_PATH = "https://api.yelp.com/v3/businesses/search"
 HEADERS = {'Authorization': 'bearer %s' % API_KEY}
 
 
-conn = mysql.connector.connect(user="root", password="e~oJ^vNcTm5^.2BD", host="34.28.144.64", database="cloud-computing-db")
 
-crsr = conn.cursor(dictionary=True)
-
+# crsr.execute("select * from Persons;")
+# print(crsr.fetchall())
 app = Flask(__name__)
+
+def db_call(plan_data):
+    conn = mysql.connector.connect(user="root", password="e~oJ^vNcTm5^.2BD", host="34.28.144.64", database="cloud-computing-db")
+    new_data = yaml.safe_load(plan_data['msg'])
+    print(new_data['id'])
+    
 
 
 @app.route("/", methods=['GET','POST'])
@@ -24,28 +30,40 @@ def index():
 
     return render_template('index.html')
 
+@app.route("/addTODB", methods=['GET','POST'])
+def addTODB():
+    if request.method == 'POST':
+        data = request.json
+        db_call(data)
+        return data['msg']
+
+
 @app.route("/createPlan", methods=['GET','POST'])
 def createPlan():
+
     if request.method == 'POST':
 
         if 'city' in request.form :
             city = request.form["city"]
             term = request.form["name"]
 
-        PARAMETERS = {'location':city,
-                        'term':term,
-                        'limit':10}
+            PARAMETERS = {'location':city,
+                            'term':term,
+                            'limit':10}
 
-        response = requests.get(url=SEARCH_PATH, 
-                                 params=PARAMETERS, 
-                                 headers=HEADERS)
-        
-        business_data = response.json()
-        businesses=business_data['businesses']
+            response = requests.get(url=SEARCH_PATH, 
+                                    params=PARAMETERS, 
+                                    headers=HEADERS)
+            
+            business_data = response.json()
+            businesses=business_data['businesses']
+            return render_template('createPlan.html', biz_json = business_data['businesses'])
 
-        return render_template('createPlan.html', biz_json = business_data['businesses'])
-        #print(business_data)
-    return render_template('createPlan.html')
+        elif 'addTODB' in request.form:
+            id = request.form['addTODB']
+            print(id)
+
+        return render_template('createPlan.html')
     
 
 
