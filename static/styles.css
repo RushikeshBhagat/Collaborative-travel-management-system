@@ -56,6 +56,9 @@ img {
 }
 
 .favorites {
+  position: relative;
+  left: 15px;
+  top: -25px;
   float: right;
   width: 50%;
 }
@@ -63,7 +66,13 @@ img {
 .add {
   position: relative;
   left: 540px;
-  top: -25px;
+  top: -40px;
+}
+
+.rmButton {
+  position: relative;
+  left: 600px;
+  top: -140px;
 }
 
 .srch {
@@ -71,8 +80,32 @@ img {
   left: 275px;
   top: -5px;
 }
+
 .scrollPlan {
   position: relative;
   left: 1100px;
   top: -27px;
+}
+
+.viewPlan {
+  position: relative;
+  left: 200px;
+  top: -45px;
+}
+
+.deleteButton {
+  position: relative;
+  left: 240px;
+  top: -45px;
+}
+
+.output {
+  position: relative;
+  top: 50px;
+}
+
+.radio {
+  position: relative;
+  top: 25px;
+  left: 90px;
 }

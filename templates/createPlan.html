@@ -15,23 +15,24 @@
   </head>
   <body>
     <nav>
-      <h2>Travel Management System</h2>
+      <h2>Collaborative Travel Management System</h2>
       <ul>
         <li><a class="navbar-brand" href="{{url_for('index')}}">Home</a></li>
         <li>
-          <a class="navbar-brand" href="{{url_for('index')}}">View Plans</a>
+          <a class="navbar-brand" href="{{url_for('viewPlan')}}">View Plans</a>
         </li>
       </ul>
     </nav>
 
-    <form action="/createPlan" method="post">
+    <!--<form action="/createPlan" method="post">
       <br />
       <br />
       <div id="txt">
         <label>Search </label>
         <input type="text" name="name" /> <br />
       </div>
-    </form>
+    </form> -->
+
 
     <div class="scrollPlan">
     <form action="/viewPlan" method="post">
@@ -44,15 +45,17 @@
       </p>
     </form>
     </div>
-<!-- 
-    <div class="output">
+    
+    <div class="output p-3">
       <div id="search" class = "search">
-        <button class="srch" type="submit">Search</button> -->
+      <!--  <button class="srch" type="submit">Search</button>-->
+
       <h2>Search Result</h3>
         <ol>
           {% for businessName in biz_json %}
          
           <div class ="biz" > 
+
           <li> 
             <a href="{{businessName['url'] }}" target="_blank"> {{businessName['name']}}  </a> 
             <br><br>
@@ -64,6 +67,7 @@
                 <b> Phone: </b> {{businessName['display_phone']}} <br>
             </ul>
             <img src= "{{businessName['image_url'] }}" height="100px" width="100px"></img>
+
             <button id='button' value="{{businessName}}" class="add" onclick='addToDB(event)'>Add</button>
           </li> 
         </div> <br>
@@ -72,6 +76,7 @@
         </ol>
       
       </div>
+
     </div>
 
     <script>
