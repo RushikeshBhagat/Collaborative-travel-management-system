@@ -1,5 +1,5 @@
 from flask import Flask, flash, render_template, request, redirect, session
-from flask_session import Session
+#from flask_session import Session
 import requests
 import json
 import mysql.connector
@@ -20,7 +20,7 @@ app = Flask(__name__)
 def db_call(plan_data):
     conn = mysql.connector.connect(user="root", password="e~oJ^vNcTm5^.2BD", host="34.28.144.64", database="cloud-computing-db")
     new_data = yaml.safe_load(plan_data['msg'])
-    print(new_data['id'])
+    print(new_data['name'])
     
 
 
