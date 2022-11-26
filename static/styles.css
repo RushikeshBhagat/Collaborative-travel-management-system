@@ -81,6 +81,12 @@ img {
   top: -5px;
 }
 
+.scrollPlan {
+  position: relative;
+  left: 1100px;
+  top: -27px;
+}
+
 .viewPlan {
   position: relative;
   left: 200px;
