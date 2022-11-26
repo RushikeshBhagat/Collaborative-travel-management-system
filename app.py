@@ -19,8 +19,14 @@ app = Flask(__name__)
 
 def db_call(plan_data):
     conn = mysql.connector.connect(user="root", password="e~oJ^vNcTm5^.2BD", host="34.28.144.64", database="cloud-computing-db")
+    crsr = conn.cursor(dictionary=True)
     new_data = yaml.safe_load(plan_data['msg'])
-    print(new_data['name'])
+    #print(new_data['location']['display_address'])
+    query = f"INSERT into Places (plan_id, bizid, bizname, bizurl, price, ratings, address, phone, imgurl) values ({new_data['plan_id']}, '{new_data['id']}','{new_data['name']}','{new_data['url']}','{new_data['price']}',{new_data['rating']},'{new_data['location']['display_address'][0]}, {new_data['location']['display_address'][1]}','{new_data['display_phone']}','{new_data['image_url']}');"
+    print(query)
+    crsr.execute(query)
+    conn.commit()
+    #print(new_data)
     
 
 
@@ -40,9 +46,11 @@ def addTODB():
 
 @app.route("/createPlan", methods=['GET','POST'])
 def createPlan():
-
+    conn = mysql.connector.connect(user="root", password="e~oJ^vNcTm5^.2BD", host="34.28.144.64", database="cloud-computing-db")
+    crsr = conn.cursor(dictionary=True)
+    
     if request.method == 'POST':
-
+        
         if 'city' in request.form :
             city = request.form["city"]
             term = request.form["name"]
@@ -57,13 +65,19 @@ def createPlan():
             
             business_data = response.json()
             businesses=business_data['businesses']
-            return render_template('createPlan.html', biz_json = business_data['businesses'])
+            crsr.execute("select * from Plans;")
+            result1=crsr.fetchall()
+            conn.commit()
+            selectValue = request.form.get('jobid')
+            #print(selectValue)
+            return render_template('createPlan.html', biz_json = business_data['businesses'],result1=result1)
+
 
         elif 'addTODB' in request.form:
             id = request.form['addTODB']
             print(id)
-
-        return render_template('createPlan.html')
+        
+    return render_template('createPlan.html')
     
 
 

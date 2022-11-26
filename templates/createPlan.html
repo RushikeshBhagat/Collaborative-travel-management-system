@@ -33,8 +33,17 @@
       </div>
     </form>
 
-    
-   
+    <div class="scrollPlan">
+    <form action="/viewPlan" method="post">
+      <p style="font-family: verdana">
+        Choose Plan:<select name="jobid" id="plan_id" style="font-family: verdana">
+          {% for j in result1 %}
+          <option value="{{j.id}}">{{j.name}}</option>
+          {% endfor %}
+        </select> 
+      </p>
+    </form>
+    </div>
 <!-- 
     <div class="output">
       <div id="search" class = "search">
@@ -51,12 +60,11 @@
                 <b> Price: </b> {{businessName['price']}} <br>
                 <b> Ratings: </b> {{businessName['rating']}} <br>
                 <b> Postal Address: </b> 
-                {{businessName['location']['display_address'][0] ,businessName['location']['display_address'][1]}} <br>
+                {{businessName['location']['display_address'][0]}}, {{businessName['location']['display_address'][1]}} <br>
                 <b> Phone: </b> {{businessName['display_phone']}} <br>
-                <b> ID: </b> {{businessName['id']}} <br>
             </ul>
             <img src= "{{businessName['image_url'] }}" height="100px" width="100px"></img>
-            <button id='button' value="{{businessName}}" onclick='addToDB(event)'>Add</button>
+            <button id='button' value="{{businessName}}" class="add" onclick='addToDB(event)'>Add</button>
           </li> 
         </div> <br>
         {% endfor %}
@@ -69,6 +77,9 @@
     <script>
       function addToDB(e){
         var msg = e.target.value
+        msg = msg.slice(0, -1);
+        var selected_plan_id = document.getElementById("plan_id").value
+        msg+=(`,'plan_id':${selected_plan_id}}`)
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST", "addTODB", true);
         xhttp.setRequestHeader('Content-type', 'application/json');
