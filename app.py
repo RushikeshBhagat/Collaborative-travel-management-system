@@ -42,6 +42,27 @@ def createPlan():
             
             business_data = response.json()
             businesses=business_data['businesses']
+
+            if 'priceBtn' in request.form :
+                sort_prices_low=[]
+                sort_prices_med=[]
+                sort_prices_high=[]
+                sort_prices_none=[]
+                sort_prices=[]
+                for biz in business_data['businesses']:
+                    if 'price' in biz:
+                        if (biz['price']=='$'):
+                            sort_prices_low.append(biz)
+                        elif (biz['price']=='$$'):
+                            sort_prices_med.append(biz)
+                        elif (biz['price']=='$$$'):
+                            sort_prices_high.append(biz)
+                        else:
+                            sort_prices_none.append(biz)
+                
+                    sort_prices = sort_prices_low+sort_prices_med+sort_prices_high+sort_prices_none
+                return render_template('createPlan.html', biz_json = sort_prices )
+
             return render_template('createPlan.html', biz_json = business_data['businesses'] )
         
         elif  'plan_name' in request.form:
