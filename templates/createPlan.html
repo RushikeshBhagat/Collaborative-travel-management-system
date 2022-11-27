@@ -35,11 +35,11 @@
 
 
     <div class="scrollPlan">
-    <form action="/viewPlan" method="post">
+    <form action="/createPlan" method="post">
       <p style="font-family: verdana">
-        Choose Plan:<select name="jobid" id="plan_id" style="font-family: verdana">
+        Choose Plan:<select name="jobid" id="plan_id" value="choice" style="font-family: verdana">
           {% for j in result1 %}
-          <option value="{{j.id}}">{{j.name}}</option>
+          <option value="{{j.id}},{{j.name}}">{{j.name}}</option>
           {% endfor %}
         </select> 
       </p>
@@ -67,10 +67,12 @@
                 <b> Phone: </b> {{businessName['display_phone']}} <br>
             </ul>
             <img src= "{{businessName['image_url'] }}" height="100px" width="100px"></img>
-
-            <button id='button' value="{{businessName}}" class="add" onclick='addToDB(event)'>Add</button>
+            
+              <button id='button' value="{{businessName}}" class="add" onclick='addToDB(event)'>Add</button>
+            
           </li> 
         </div> <br>
+        
         {% endfor %}
 
         </ol>
@@ -83,13 +85,19 @@
       function addToDB(e){
         var msg = e.target.value
         msg = msg.slice(0, -1);
-        var selected_plan_id = document.getElementById("plan_id").value
+        var selected_plan= document.getElementById("plan_id").value
+        selected_plan= selected_plan.split(",")
+        selected_plan_id=selected_plan[0];
+        selected_plan_name=selected_plan[1];
+        console.log(selected_plan_id,selected_plan_name)
         msg+=(`,'plan_id':${selected_plan_id}}`)
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST", "addTODB", true);
         xhttp.setRequestHeader('Content-type', 'application/json');
         // xhttp.send(JSON.stringify({ "value": msg }))
         xhttp.send(JSON.stringify({msg}))
+
+        alert("Item added to "+selected_plan_name)
       }
     </script>
   </body>

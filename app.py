@@ -26,8 +26,11 @@ def db_call(plan_data):
     crsr = conn.cursor(dictionary=True)
     new_data = yaml.safe_load(plan_data['msg'])
     #print(new_data['location']['display_address'])
-    query = f"INSERT into Places (plan_id, bizid, bizname, bizurl, price, ratings, address, phone, imgurl) values ({new_data['plan_id']}, '{new_data['id']}','{new_data['name']}','{new_data['url']}','{new_data['price']}',{new_data['rating']},'{new_data['location']['display_address'][0]}, {new_data['location']['display_address'][1]}','{new_data['display_phone']}','{new_data['image_url']}');"
+    biz_name=str(new_data['name'])
+    biz_name=biz_name.replace("'","''")
+    query = f"INSERT into Places (plan_id, bizid, bizname, bizurl, price, ratings, address, phone, imgurl) values ({new_data['plan_id']}, '{new_data['id']}','{biz_name}','{new_data['url']}','{new_data['price']}',{new_data['rating']},'{new_data['location']['display_address'][0]}, {new_data['location']['display_address'][1]}','{new_data['display_phone']}','{new_data['image_url']}');"
     print(query)
+    #print(x)
     crsr.execute(query)
     conn.commit()
     #print(new_data)
@@ -51,7 +54,8 @@ def addTODB():
 def createPlan():
     conn = mysql.connector.connect(user="root", password="e~oJ^vNcTm5^.2BD", host="34.28.144.64", database="cloud-computing-db")
     crsr = conn.cursor(dictionary=True)
-    
+    selectValue = request.form.get('jobid')
+    print(selectValue)
     if request.method == 'POST':
         
         if 'city' in request.form :
@@ -88,12 +92,15 @@ def createPlan():
                             sort_prices_none.append(biz)
                 
                     sort_prices = sort_prices_low+sort_prices_med+sort_prices_high+sort_prices_none
-                return render_template('createPlan.html', biz_json = sort_prices )
+                    crsr.execute("select * from Plans;")
+                    result1=crsr.fetchall()
+                    conn.commit()
+                    
+                return render_template('createPlan.html', biz_json = sort_prices,result1=result1 )
                 
             crsr.execute("select * from Plans;")
             result1=crsr.fetchall()
             conn.commit()
-            selectValue = request.form.get('jobid')
             #print(selectValue)
             return render_template('createPlan.html', biz_json = business_data['businesses'],result1=result1)
         
