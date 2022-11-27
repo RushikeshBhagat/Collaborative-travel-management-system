@@ -68,6 +68,7 @@
             </ul>
             <img src= "{{businessName['image_url'] }}" height="100px" width="100px"></img>
             
+              
               <button id='button' value="{{businessName}}" class="add" onclick='addToDB(event)'>Add</button>
             
           </li> 
@@ -86,6 +87,7 @@
         var msg = e.target.value
         msg = msg.slice(0, -1);
         var selected_plan= document.getElementById("plan_id").value
+        
         selected_plan= selected_plan.split(",")
         selected_plan_id=selected_plan[0];
         selected_plan_name=selected_plan[1];
@@ -96,8 +98,10 @@
         xhttp.setRequestHeader('Content-type', 'application/json');
         // xhttp.send(JSON.stringify({ "value": msg }))
         xhttp.send(JSON.stringify({msg}))
-
-        alert("Item added to "+selected_plan_name)
+        console.log(msg,typeof(msg))
+        var b_name=msg.split(",")[2].split(":")
+        console.log(b_name[1]);
+        alert(b_name[1]+" added to "+selected_plan_name)
       }
     </script>
   </body>
