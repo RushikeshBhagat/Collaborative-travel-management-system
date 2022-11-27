@@ -109,3 +109,56 @@ img {
   top: 25px;
   left: 90px;
 }
+
+.scrollPlan {
+  position: relative;
+  top: 90px;
+  left: 770px;
+}
+
+.createBtn {
+  position: relative;
+  top: 25px;
+}
+
+.citylbl {
+  position: relative;
+  top: -54px;
+  left: 250px;
+}
+
+.prof {
+  position: relative;
+  top: -25px;
+}
+
+.srch_radio {
+  position: relative;
+  top: -50px;
+}
+.srch_head {
+  position: relative;
+  top: -15px;
+}
+
+.plan-div {
+  position: relative;
+  top: -35px;
+}
+
+#neubar {
+  background: #99ffbb;
+  box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+#neubar .nav-item {
+  margin: auto 4px;
+}
+#neubar a {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+a.navbar-brand {
+  color: #454545;
+}

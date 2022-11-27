@@ -14,53 +14,73 @@
     />
   </head>
   <body>
-    <nav>
-      <h2>Collaborative Travel Management System</h2>
+    <!--  <nav>
+      <h1>Collaborative Travel Management System</h1>
       <ul>
         <li><a class="navbar-brand" href="{{url_for('index')}}">Home</a></li>
         <li>
           <a class="navbar-brand" href="{{url_for('viewPlan')}}">View Plans</a>
         </li>
       </ul>
+    </nav> -->
+
+    <nav class="navbar navbar-expand-sm navbar-light" id="neubar">
+      <div class="container">
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <h1>Collaborative Travel Management System</h1>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link mx-2" href="{{url_for('index')}}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-2" href="{{url_for('viewPlan')}}"
+                >View Plans</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
 
     <div class="p-3">
-      <div id="prof">
+      <div class="prof">
         <form action="/createPlan" method="post">
           <br />
           <br />
-
+          <h3 class="srch_head">Add Search Filter and city to visit</h3>
           <div id="txt">
             <label>Filter </label>
             <input type="text" name="name" /> <br />
           </div>
-
-          <div id="txt">
+          <br />
+          <div class="citylbl" id="txt">
             <label>City </label>
             <input type="text" name="city" /> <br />
           </div>
 
-          <div class="radio">
-            Price
-            <input type="radio" id="price" name="priceBtn" value="price" />
-          </div>
+          <div class="srch_radio">
+            <div class="radio">
+              Price
+              <input type="radio" id="price" name="priceBtn" value="price" />
+            </div>
 
-          <button id="btn" type="submit">Search</button>
+            <button id="btn" type="submit">Search</button>
+          </div>
         </form>
       </div>
       {{err1}}
 
-      <div id="plan-div">
+      <div class="plan-div">
         <form action="/createPlan" method="post">
           <br />
           <br />
-
+          <h3 class="srch_head">Create a new Plan</h3>
           <div id="txt">
             <label>Plan Name</label>
             <input type="text" name="plan_name" /> <br />
           </div>
 
-          <button id="btn" type="submit">Create Plan</button>
+          <button id="btn" class="createBtn" type="submit">Create Plan</button>
         </form>
         {{err}}
       </div>
