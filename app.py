@@ -6,12 +6,6 @@ import mysql.connector
 import csv
 import yaml
 
-
-API_KEY = '2mV1iX6Fd8Fx87j_3PDsUz5p9JjNDRfvZRqoijC4wbzF_QeXe9xReZ8TMmSjp22CQtF_WCRyzt08KHKla30wMFVOSnPqTkakoVO0_tf2oH_BCyW_FQgNgKjyoTA3Y3Yx'
-SEARCH_PATH = "https://api.yelp.com/v3/businesses/search"
-HEADERS = {'Authorization': 'bearer %s' % API_KEY}
-
-
 conn = mysql.connector.connect(user="root", password="e~oJ^vNcTm5^.2BD", host="34.28.144.64", database="cloud-computing-db")
 crsr = conn.cursor(dictionary=True)
 
@@ -59,20 +53,23 @@ def createPlan():
     if request.method == 'POST':
         
         if 'city' in request.form :
+            term=''
             city = request.form["city"]
             if city == '':
                 return render_template('index.html', err1= f"Please enter city name")
             term = request.form["name"]
-        
-            PARAMETERS = {'location':city,
-                            'term':term,
-                            'limit':10}
-
-            response = requests.get(url=SEARCH_PATH, 
-                                    params=PARAMETERS, 
-                                    headers=HEADERS)
+          
+            if term=='':
+                url="https://us-central1-fresh-circle-276713.cloudfunctions.net/yelp-search/?location='"+city+"'"
+            else:
+                url="https://us-central1-fresh-circle-276713.cloudfunctions.net/yelp-search/?location='"+city+"'&term='"+term+"'"
+            #r = requests.post(url)
+            r = requests.get(url) 
+            c = r.content
+            result = c.decode('utf8')
+            business_data = json.loads(result)
+            #print(business_data)
             
-            business_data = response.json()
             businesses=business_data['businesses']
             if 'priceBtn' in request.form :
                 sort_prices_low=[]

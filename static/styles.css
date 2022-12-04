@@ -81,10 +81,10 @@ img {
   top: -5px;
 }
 
-.scrollPlan {
+.scrollPlans{
   position: relative;
   left: 1100px;
-  top: -27px;
+  top: 70px;
 }
 
 .viewPlan {
@@ -161,4 +161,14 @@ img {
 
 a.navbar-brand {
   color: #454545;
+}
+
+.error{
+  position: relative;
+  top: 30px;
+}
+
+.error-1{
+  position: relative;
+  top: -68px;
 }
