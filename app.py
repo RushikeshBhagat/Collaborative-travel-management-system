@@ -22,7 +22,11 @@ def db_call(plan_data):
     #print(new_data['location']['display_address'])
     biz_name=str(new_data['name'])
     biz_name=biz_name.replace("'","''")
-    query = f"INSERT into Places (plan_id, bizid, bizname, bizurl, price, ratings, address, phone, imgurl) values ({new_data['plan_id']}, '{new_data['id']}','{biz_name}','{new_data['url']}','{new_data['price']}',{new_data['rating']},'{new_data['location']['display_address'][0]}, {new_data['location']['display_address'][1]}','{new_data['display_phone']}','{new_data['image_url']}');"
+    if 'price' in new_data:
+        query = f"INSERT into Places (plan_id, bizid, bizname, bizurl, price, ratings, address, phone, imgurl) values ({new_data['plan_id']}, '{new_data['id']}','{biz_name}','{new_data['url']}','{new_data['price']}',{new_data['rating']},'{new_data['location']['display_address'][0]}, {new_data['location']['display_address'][1]}','{new_data['display_phone']}','{new_data['image_url']}');"
+    else:
+        query = f"INSERT into Places (plan_id, bizid, bizname, bizurl, price, ratings, address, phone, imgurl) values ({new_data['plan_id']}, '{new_data['id']}','{biz_name}','{new_data['url']}','NA',{new_data['rating']},'{new_data['location']['display_address'][0]}, {new_data['location']['display_address'][1]}','{new_data['display_phone']}','{new_data['image_url']}');"
+
     print(query)
     #print(x)
     crsr.execute(query)
