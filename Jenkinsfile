@@ -2,6 +2,7 @@ pipeline {
     environment {
         
         def imageName = "avadhut007/cloudcomputings:v1-${env.BRANCH_NAME}-${env.BUILD_ID}"
+        DOCKERHUB_CREDENTIALS=credentials('1c1edff8-6e15-45ef-b29e-b6f691662587')
 
     }
 
@@ -19,6 +20,7 @@ pipeline {
             stage("Push Image to the Docker Registry") {
                 steps{
                     script {
+                        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                         sh "docker push ${imageName}"
                     }
                 }
