@@ -106,10 +106,14 @@
         xhttp.setRequestHeader('Content-type', 'application/json');
         // xhttp.send(JSON.stringify({ "value": msg }))
         xhttp.send(JSON.stringify({msg}))
-        console.log(msg,typeof(msg))
-        var b_name=msg.split(",")[20].split(":")
-        console.log(b_name[1]);
-        alert(b_name[1]+" added to "+selected_plan_name)
+        console.log(msg)
+        var b_name=msg.split("'name'")[1].split(":")
+        b_name=b_name[1].split(",")
+        //pos=msg.indexOf("'name'")
+        console.log(b_name)
+        alert(b_name[0]+" added to "+selected_plan_name)
+        //alert("Item added to "+selected_plan_name)
+
       }
     </script>
   </body>
