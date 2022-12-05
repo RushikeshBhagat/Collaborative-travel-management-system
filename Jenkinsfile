@@ -23,8 +23,22 @@ pipeline {
                     }
                 }
             }
-                   
-            stage("Deploy App on VM") {
+             stage ('Remove Previous App Container') {
+                steps {
+                    echo 'Hello, '
+
+                    sh '''#!/bin/bash
+                        for id in $(docker ps -q)
+                        do
+                            if [[ $(docker port "${id}") == 5000 ]]; then
+                                echo "stopping container ${id}"
+                                docker stop "${id}"
+                            fi
+                        done
+                    '''
+                }
+            }                  
+            stage("Deploy New App Container on VM") {
                 when{
                         branch 'master'
                     }
