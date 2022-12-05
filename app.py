@@ -72,7 +72,7 @@ def createPlan():
             c = r.content
             result = c.decode('utf8')
             business_data = json.loads(result)
-            print(business_data)
+            print(c)
             
             businesses=business_data['businesses']
             if 'priceBtn' in request.form :
