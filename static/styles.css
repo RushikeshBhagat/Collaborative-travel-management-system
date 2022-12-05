@@ -23,14 +23,14 @@ nav a {
   display: flex;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #e1d554;
+  background-color: #d7d6ca;
   line-height: 1.5;
 }
 .fav_biz {
   display: flex;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #e1d554;
+  background-color: #d7d6ca;
   line-height: 1.5;
 }
 a {
@@ -147,7 +147,7 @@ img {
 }
 
 #neubar {
-  background: #e1d554;
+  background: #d7d6ca;
   box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.4);
 }
 
