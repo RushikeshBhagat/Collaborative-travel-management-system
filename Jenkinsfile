@@ -30,13 +30,13 @@ pipeline {
                     echo 'Hello, '
 
                     sh '''#!/bin/bash
+                        echo "START"
                         for id in $(docker ps -q)
-                        do
-                            if [[ $(docker port "${id}") == 5000 ]]; then
+                            do
                                 echo "stopping container ${id}"
                                 docker stop "${id}"
-                            fi
-                        done
+                                echo "DONE"
+                            done
                     '''
                 }
             }                  
